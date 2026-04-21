@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1056428983613",
+    "project_id": "stepquest-40955",
+    "storage_bucket": "stepquest-40955.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056428983613:android:94bfd1fc52370ca9fbb154",
+        "android_client_info": {
+          "package_name": "com.example.step_quiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhoXA5-V1HzHynWVz2DI-ERY4LLnPDpG0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
