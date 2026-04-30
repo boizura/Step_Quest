@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'profile_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -21,9 +20,7 @@ class DashboardScreen extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const ProfileScreen(),
-                ),
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
               );
             },
           ),
@@ -45,7 +42,31 @@ class DashboardScreen extends StatelessWidget {
           }
 
           if (!snapshot.hasData || !snapshot.data!.exists) {
-            return const Center(child: Text('No character data found.'));
+            return Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  final user = FirebaseAuth.instance.currentUser!;
+
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(user.uid)
+                      .set({
+                        'email': user.email ?? '',
+                        'characterName': 'Hero',
+                        'level': 1,
+                        'xp': 0,
+                        'health': 100,
+                        'stamina': 100,
+                        'streakCount': 0,
+                        'totalSteps': 0,
+                        'dailyGoal': 5000,
+                        'currentQuestId': null,
+                        'createdAt': FieldValue.serverTimestamp(),
+                      });
+                },
+                child: const Text('Create Character Profile'),
+              ),
+            );
           }
 
           final data = snapshot.data!.data() as Map<String, dynamic>;
@@ -78,10 +99,7 @@ class DashboardScreen extends StatelessWidget {
 
                 Text(
                   'Level $level Hero',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey,
-                  ),
+                  style: const TextStyle(fontSize: 18, color: Colors.grey),
                 ),
 
                 const SizedBox(height: 24),
@@ -105,16 +123,11 @@ class DashboardScreen extends StatelessWidget {
 
                         const SizedBox(height: 8),
 
-                        Text(
-                          'Walk $dailyGoal steps to continue your journey.',
-                        ),
+                        Text('Walk $dailyGoal steps to continue your journey.'),
 
                         const SizedBox(height: 16),
 
-                        LinearProgressIndicator(
-                          value: progress,
-                          minHeight: 12,
-                        ),
+                        LinearProgressIndicator(value: progress, minHeight: 12),
 
                         const SizedBox(height: 8),
 
@@ -172,10 +185,7 @@ class DashboardScreen extends StatelessWidget {
 
                 const Text(
                   'Adventure Actions',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
 
                 const SizedBox(height: 12),
@@ -184,9 +194,7 @@ class DashboardScreen extends StatelessWidget {
                   title: 'View Quest',
                   icon: Icons.map,
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Quest screen coming next.')),
-                    );
+                    Navigator.pushNamed(context, '/quest');
                   },
                 ),
 
@@ -194,9 +202,15 @@ class DashboardScreen extends StatelessWidget {
                   title: 'Enter Battle',
                   icon: Icons.shield,
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Battle screen coming next.')),
-                    );
+                    Navigator.pushNamed(context, '/battle');
+                  },
+                ),
+
+                _ActionButton(
+                  title: 'Character Progression',
+                  icon: Icons.person,
+                  onTap: () {
+                    Navigator.pushNamed(context, '/character');
                   },
                 ),
 
@@ -204,9 +218,7 @@ class DashboardScreen extends StatelessWidget {
                   title: 'Guild Challenges',
                   icon: Icons.groups,
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Guild screen coming next.')),
-                    );
+                    Navigator.pushNamed(context, '/guild');
                   },
                 ),
               ],
@@ -238,17 +250,11 @@ class _StatCard extends StatelessWidget {
           children: [
             Icon(icon, size: 32, color: Colors.deepPurple),
             const SizedBox(height: 8),
-            Text(
-              title,
-              style: const TextStyle(color: Colors.grey),
-            ),
+            Text(title, style: const TextStyle(color: Colors.grey)),
             const SizedBox(height: 4),
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],
         ),

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:step_quiz/screens/dashboard_screen.dart';
+import 'package:step_quiz/screens/guild_screen.dart';
+import 'package:step_quiz/screens/quest_screen.dart';
+import 'screens/character_screen.dart';
+import 'screens/battle_screen.dart';
 import 'firebase_options.dart';
 
 import 'screens/auth_screen.dart';
@@ -29,6 +33,10 @@ class StepQuestApp extends StatelessWidget {
         '/auth': (context) => const AuthScreen(),
         '/dashboard': (context) => const DashboardScreen(),
         '/profile': (context) => const ProfileScreen(),
+        '/quest': (context) => const QuestScreen(),
+        '/guild': (context) => const GuildScreen(),
+        '/character': (context) => const CharacterScreen(),
+        '/battle': (context) => const BattleScreen(),
       },
     );
   }
