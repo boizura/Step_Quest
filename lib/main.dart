@@ -28,7 +28,7 @@ class StepQuestApp extends StatelessWidget {
       routes: {
         '/auth': (context) => const AuthScreen(),
         '/dashboard': (context) => const DashboardScreen(),
-        // '/profile': (context) => const ProfileScreen(),
+        '/profile': (context) => const ProfileScreen(),
       },
     );
   }
