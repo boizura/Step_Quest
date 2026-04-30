@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'stepquest-40955.firebaseapp.com',
     storageBucket: 'stepquest-40955.firebasestorage.app',
   );
+
 }
