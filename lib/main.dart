@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:step_quiz/screens/auth_screen.dart';
+import 'package:step_quiz/screens/dashboard_screen.dart';
 import 'firebase_options.dart';
+
+import 'screens/auth_screen.dart';
+import 'screens/profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +24,12 @@ class StepQuestApp extends StatelessWidget {
     return MaterialApp(
       title: 'StepQuest',
       debugShowCheckedModeBanner: false,
-      home: AuthScreen(),
+      initialRoute: '/auth',
+      routes: {
+        '/auth': (context) => const AuthScreen(),
+        '/dashboard': (context) => const DashboardScreen(),
+        // '/profile': (context) => const ProfileScreen(),
+      },
     );
   }
 }
