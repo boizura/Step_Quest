@@ -65,8 +65,9 @@ class ProfileScreen extends StatelessWidget {
 
           return Padding(
             padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
                 const CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.deepPurple,
@@ -142,6 +143,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ],
+              ),
             ),
           );
         },
