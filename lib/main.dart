@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:step_quiz/screens/dashboard_screen.dart';
-import 'package:step_quiz/screens/guild_screen.dart';
-import 'package:step_quiz/screens/quest_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'firebase_options.dart';
+import 'screens/auth_screen.dart';
+import 'screens/dashboard_screen.dart';
+import 'screens/profile_screen.dart';
+import 'screens/quest_screen.dart';
+import 'screens/guild_screen.dart';
 import 'screens/character_screen.dart';
 import 'screens/battle_screen.dart';
-import 'firebase_options.dart';
 
-import 'screens/auth_screen.dart';
-import 'screens/profile_screen.dart';
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  debugPrint('Background FCM message: ${message.messageId}');
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +25,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   runApp(const StepQuestApp());
 }

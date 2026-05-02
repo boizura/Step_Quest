@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../services/fcm_service.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -56,6 +57,8 @@ class _AuthScreenState extends State<AuthScreen> {
           'createdAt': FieldValue.serverTimestamp(),
         });
       }
+
+      await FcmService().saveTokenToFirestore();
 
       if (mounted) {
       Navigator.pushReplacementNamed(context, '/dashboard');
