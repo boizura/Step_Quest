@@ -64,8 +64,26 @@ class _AuthScreenState extends State<AuthScreen> {
       Navigator.pushReplacementNamed(context, '/dashboard');
       }
     } on FirebaseAuthException catch (e) {
+      String message = 'Authentication failed.';
+      if (e.code == 'network-request-failed' || e.message?.contains('network') == true) {
+        message = 'Network error. Please check your connection and try again.';
+      } else if (e.code == 'too-many-requests') {
+        message = 'Too many attempts. Please wait a moment and try again.';
+      } else if (e.code == 'user-not-found') {
+        message = 'No account found with this email.';
+      } else if (e.code == 'wrong-password') {
+        message = 'Incorrect password.';
+      } else if (e.code == 'email-already-in-use') {
+        message = 'An account with this email already exists.';
+      } else if (e.code == 'weak-password') {
+        message = 'Password is too weak.';
+      } else if (e.code == 'invalid-email') {
+        message = 'Invalid email address.';
+      } else {
+        message = e.message ?? 'Authentication failed.';
+      }
       setState(() {
-        errorMessage = e.message ?? 'Authentication failed.';
+        errorMessage = message;
       });
     } catch (e) {
       setState(() {
@@ -155,9 +173,25 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 16),
 
                   if (errorMessage.isNotEmpty)
-                    Text(
-                      errorMessage,
-                      style: const TextStyle(color: Colors.red),
+                    Column(
+                      children: [
+                        Text(
+                          errorMessage,
+                          style: const TextStyle(color: Colors.red),
+                          textAlign: TextAlign.center,
+                        ),
+                        if (errorMessage.contains('Network error'))
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: ElevatedButton(
+                              onPressed: submitAuth,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                              ),
+                              child: const Text('Retry'),
+                            ),
+                          ),
+                      ],
                     ),
 
                   const SizedBox(height: 20),
